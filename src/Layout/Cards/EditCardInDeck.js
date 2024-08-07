@@ -24,7 +24,7 @@ export const EditCardInDeck = () => {
             error => console.log(error)
         )
         return () => abortController.abort();
-    }, []);
+    }, [deckId, cardId]);
 
     const handleCardChange = (e) => {
         setFormData({...formData, [e.target.name]: e.target.value});
@@ -35,6 +35,7 @@ export const EditCardInDeck = () => {
         const abortController = new AbortController();
         updateCard(formData, abortController.signal).then(response => {
             navigate(`/decks/${deckId}`);
+            navigate(0);
         }).catch(
             error => console.log(error)
         )

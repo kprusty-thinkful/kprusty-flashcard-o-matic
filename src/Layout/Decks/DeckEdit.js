@@ -1,12 +1,11 @@
-import {Link, useNavigate, useParams} from "react-router-dom";
+import {Link, useNavigate, useOutletContext, useParams} from "react-router-dom";
 import Header from "../Header";
 import {useEffect, useState} from "react";
-import {createDeck, readDeck, updateDeck} from "../../utils/api";
+import { updateDeck } from "../../utils/api";
 import React from "react";
 
 export const DeckEdit = () => {
-    const {deckId} = useParams();
-    const [deck, setDeck] = useState({})
+    const { deck } = useOutletContext(); // Access shared deck state
     const navigate = useNavigate();
     const [formData, setFormData] = useState({})
 
@@ -19,6 +18,7 @@ export const DeckEdit = () => {
         const abortController = new AbortController();
         updateDeck(formData, abortController.signal).then(response => {
             navigate(`/decks/${response.id}`);
+            navigate(0);
         }).catch(
             error => console.log(error)
         )
@@ -26,23 +26,15 @@ export const DeckEdit = () => {
     }
 
     useEffect( () => {
-        const abortController = new AbortController();
-        readDeck(deckId, abortController.signal).then(response => {
-            setDeck(response)
-            setFormData(response);
-            console.log("cards to study: ", deck.cards);
-        }).catch(
-            error => console.log(error)
-        )
-        return () => abortController.abort();
-    }, [deckId]);
+        setFormData(deck);
+    }, [deck]);
     return(
         <>
             <Header/>
             <div className="container">
                 <nav>
                     <Link to='/'>Home</Link> /
-                    <Link to={`/decks/${deckId}`}>{deck.name}</Link> /
+                    <Link to={`/decks/${deck.id}`}>{deck.name}</Link> /
                     Edit Deck
                 </nav>
                 <form onSubmit={handleSubmit}>

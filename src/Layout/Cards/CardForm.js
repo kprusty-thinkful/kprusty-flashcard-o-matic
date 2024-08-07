@@ -18,7 +18,13 @@ export const CardForm = ({handleCardSubmit, formData, handleCardChange, deckId})
             </label>
             <br/>
             <div>
-                <Link to={`/decks/${deckId}`} className='button-link cancel'>Done</Link>
+                <Link
+                    to={`/decks/${deckId}`}
+                    reloadDocument={true}
+                    className='button-link cancel'
+                >
+                    Done
+                </Link>
                 <button type='submit' className='button-link submit'>Save</button>
             </div>
         </form>

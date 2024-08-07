@@ -8,16 +8,19 @@ import DeckEdit from "./Layout/Decks/DeckEdit";
 import AddCardToDeck from "./Layout/Cards/AddCardToDeck";
 import EditCardInDeck from "./Layout/Cards/EditCardInDeck";
 import React from "react";
+import DeckManager from "./Layout/Decks/DeckManager";
 
 export const RootRoutes = () => {
     return(
         <Routes>
             <Route path='/' element={<Layout />}></Route>
-            <Route path='decks/:deckId' element={<DeckView />} />
-            <Route path='decks/:deckId/edit' element={<DeckEdit />} />
-            <Route path='decks/:deckId/cards/new' element={<AddCardToDeck />} />
-            <Route path='decks/:deckId/cards/:cardId/edit' element={<EditCardInDeck />} />
-            <Route path='decks/:deckId/study' element={<DeckStudy />} />
+            <Route path='/decks/:deckId' element={<DeckManager />}>
+                <Route index element={<DeckView />} />
+                <Route path='edit' element={<DeckEdit />} />
+                <Route path='cards/new' element={<AddCardToDeck />} />
+                <Route path='cards/:cardId/edit' element={<EditCardInDeck />} />
+                <Route path='study' element={<DeckStudy />} />
+            </Route>
             <Route path='decks/new' element={<CreateNewDeck />} />
             <Route path='*' element={<NotFound />} />
         </Routes>
